@@ -4,34 +4,35 @@ from flask import *
 
 import os
 
+import sqlite3 
+
 app = Flask(__name__)
 
 def home():
   return render_template('home.html')
 
+
+@app.route('/raw')
+
+def raw():
+  return open('temp.data').read()       
+
 @app.route('/')
 @app.route('/temp')
 def temp():
   graphdata = []
-  filedata = open('/root/temp.data').read()
-  for line in filedata.split('\n'):
- 
-    try: 
-      time = line.split(",")[0]
-    except:
-      continue
-    try: 
-      inside = line.split(",")[1]
-    except:
-      continue
-    try: 
-      outside = line.split(",")[2] 
-    except:
-      outside = 0 
+  con = get_dbhandle()
+  cur = con.cursor()
+  cur.execute('select timestamp, insidetemp_f, outsidetemp_f from trends')
+  while True:
+    row = cur.fetchone()
+    if row == None:
+       break
 
-    graphdata.append("['%s', %s, %s]" % (time,inside,outside))
+    graphdata.append("['%s', %s, %s]" % (row[0], row[1], row[2])) 
 
-  
+
+
   displaydata = "[['Date','Inside','Outside']," + ",".join(graphdata) + "]" 
 
   data = """
@@ -63,6 +64,13 @@ def temp():
 
   return data
   ##return '<pre>' + open('temp.data').read()
+
+
+def get_dbhandle():
+    con = None
+    con = sqlite3.connect('/var/lib/rpi-datalogger/database.db')
+    return con
+
 
 if __name__ == '__main__':
   app.run(debug=True, host='0.0.0.0',port=80)

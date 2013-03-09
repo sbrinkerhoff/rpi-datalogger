@@ -31,7 +31,8 @@ def main():
 
     con = get_dbhandle()
     cur = con.cursor()
-    sql = 'insert into trends (timestamp, insidetemp_f, outsidetemp_f) values ("%s", %s, %s)' % ( datetime.datetime.now(), inside, outside)
+    sql = 'insert into trends (timestamp, insidetemp_f, outsidetemp_f) values ("%s", %s, %s)' % ( str(datetime.datetime.now())[0:19], inside, outside)
+
 
     print sql 
     cur.execute(sql)
@@ -40,7 +41,7 @@ def main():
     lcd = lcddriver.lcd(init=False)
     lcd.lcd_display_string("Inside : " +str(inside)+' F  ',2)
     lcd.lcd_display_string("Outside: " + str(outside) + " F  ", 3)
-    lcd.lcd_display_string(str(datetime.datetime.now())[0:18],4)
+    lcd.lcd_display_string(str(datetime.datetime.now())[0:19],4)
 
 
 if __name__ == "__main__":
