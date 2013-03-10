@@ -27,7 +27,7 @@ def get_temp(file_link):
 
 def main():
     inside = get_temp("/sys/bus/w1/devices/28-000003d37411/w1_slave")
-    outside = get_temp("/sys/bus/w1/devices/28-00000428d743/w1_slave")
+    outside = get_temp("/sys/bus/w1/devices/28-000003ea8a14/w1_slave")
 
     con = get_dbhandle()
     cur = con.cursor()
