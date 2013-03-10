@@ -1,8 +1,10 @@
 #!/usr/bin/python
 
-import lcddriver
 from time import *
 import sys
+
+from i2c_lib import *
+from i2c_lib import lcddriver as lcddriver
 
 try:
     if sys.argv[3] == "init":

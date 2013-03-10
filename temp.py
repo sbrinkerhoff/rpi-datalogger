@@ -5,7 +5,7 @@ import sys
 
 import sqlite3
 
-import lcddriver
+from i2c_lib import lcddriver
 
 
 def get_dbhandle():
