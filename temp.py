@@ -7,8 +7,6 @@ import sys
 
 import sqlite3
 
-from i2c_lib import lcddriver
-
 
 def get_dbhandle():
     """ Return a database handle to the SQLite file """
@@ -33,6 +31,17 @@ def get_temp(file_link):
     temp = round((int(temp[2:])/1000.0)*1.8+32, 2)
     return temp
 
+def update_lcd():
+    """ Update the onboard LCD with the current temps. """
+
+    #from i2c_lib import lcddriver
+
+    #lcd = lcddriver.lcd(init=False)
+    #lcd.lcd_display_string("Inside : " +str(inside)+' F  ', 2)
+    #lcd.lcd_display_string("Outside: " + str(outside) + " F  ", 3)
+    #lcd.lcd_display_string(curdate, 4)
+
+
 def main():
     """ Where the magic happens. """
 
@@ -49,14 +58,8 @@ def main():
     cur.execute(sql)
     con.commit()
 
-    curdate = str(datetime.datetime.now())[0:19]
-
     print curdate, ",", inside, ",", outside
 
-    lcd = lcddriver.lcd(init=False)
-    lcd.lcd_display_string("Inside : " +str(inside)+' F  ', 2)
-    lcd.lcd_display_string("Outside: " + str(outside) + " F  ", 3)
-    lcd.lcd_display_string(curdate, 4)
 
 if __name__ == "__main__":
     main()
